@@ -49,7 +49,11 @@ public class User {
     @Column(name = "enabled")
     private Boolean enabled;
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_authority"))
     private List<Authorities> authorities;
 
     @PrePersist

@@ -1,13 +1,15 @@
 package systems.triad.portfolio.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "authorities")
 public class Authorities {
@@ -20,11 +22,7 @@ public class Authorities {
     @Column(name = "authority")
     private String authority;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_authority",
-            joinColumns = @JoinColumn(name = "id_authority"),
-            inverseJoinColumns = @JoinColumn(name = "id_user"))
+    @ManyToMany(mappedBy = "authorities")
     private List<User> users;
 
 }

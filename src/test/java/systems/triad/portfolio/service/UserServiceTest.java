@@ -5,9 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.annotation.DirtiesContext;
+import systems.triad.portfolio.model.Authorities;
 import systems.triad.portfolio.model.User;
 import systems.triad.portfolio.repository.UserRepository;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
