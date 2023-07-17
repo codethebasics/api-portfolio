@@ -1,13 +1,13 @@
 package systems.triad.portfolio.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -21,34 +21,40 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "USERS")
+@Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotBlank(message = "O usuário não pode ser vazio")
-    @Size(min = 3, max = 20, message = "O usuário deve conter entre {min} e {max} caracteres")
-    @Column(name = "USERNAME")
+    @Size(min = 3, max = 50, message = "O usuário deve conter entre {min} e {max} caracteres")
+    @Column(name = "username")
     private String username;
 
     @NotBlank(message = "O password não pode ser vazio")
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "O password não atende às especificações definidas")
-    @Column(name = "PASSWORD")
+    @Column(name = "password")
     private String password;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "CREATED_AT")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "UPDATED_AT")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "active")
-    private Boolean active;
+    @Column(name = "enabled")
+    private Boolean enabled;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_authority"))
+    private List<Authorities> authorities;
 
     @PrePersist
     public void prePersist() {
