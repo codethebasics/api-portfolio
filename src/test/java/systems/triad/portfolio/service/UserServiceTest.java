@@ -1,14 +1,16 @@
 package systems.triad.portfolio.service;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
+import org.springframework.test.annotation.DirtiesContext;
+import systems.triad.portfolio.model.Authorities;
 import systems.triad.portfolio.model.User;
 import systems.triad.portfolio.repository.UserRepository;
 
-import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -19,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @author brunocarneiro
  */
 @DataJpaTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserServiceTest {
 
     private UserService userService;
@@ -32,13 +35,15 @@ class UserServiceTest {
     }
 
     @Test
+    @Order(1)
+    @Commit
     void givenUser_whenSave_thenReturnSavedUser() {
 
         // given
         User user = User.builder()
-                .active(true)
+                .enabled(true)
                 .username("bruno.carneiro")
-                .password("123456")
+                .password("Abc312#!@321312")
                 .build();
 
         // when
@@ -50,6 +55,7 @@ class UserServiceTest {
     }
 
     @Test
+    @Order(2)
     void whenFindAll_thenReturnUser() {
 
         // when
@@ -60,6 +66,7 @@ class UserServiceTest {
     }
 
     @Test
+    @Order(3)
     void givenUserId_whenFindById_thenReturnUser() {
 
         // given

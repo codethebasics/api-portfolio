@@ -1,5 +1,6 @@
 package systems.triad.portfolio.service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import systems.triad.portfolio.model.User;
 import systems.triad.portfolio.repository.UserRepository;
@@ -28,5 +29,9 @@ public class UserService {
 
     public User save(User user) {
         return this.userRepository.save(user);
+    }
+
+    public User findByUsername(String username) {
+        return this.userRepository.findByUsername(username);
     }
 }
